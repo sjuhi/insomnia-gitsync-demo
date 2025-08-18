@@ -11,11 +11,20 @@ collection:
     meta:
       id: req_3370cca0234d4e6e826eaabf86e96de2
       created: 1755519870617
-      modified: 1755519870617
+      modified: 1755521183379
       isPrivate: false
       description: Returns a list of all to-do items for the user.
       sortKey: -1755519870617
     method: GET
+    headers:
+      - id: pair_82491e8918834433b108365eb6f7287e
+        name: Content-Type
+        value: application/json
+        description: ""
+        disabled: false
+    scripts:
+      preRequest: ""
+      afterResponse: ""
     settings:
       renderRequestBody: true
       encodeUrl: true
@@ -34,6 +43,9 @@ collection:
       description: Returns a single to-do item by its ID.
       sortKey: -1755519870619
     method: GET
+    scripts:
+      preRequest: ""
+      afterResponse: ""
     settings:
       renderRequestBody: true
       encodeUrl: true
