@@ -1,0 +1,136 @@
+type: spec.insomnia.rest/5.0
+name: Simple To-Do List API 1.0.0
+meta:
+  id: wrk_3752e3f8add348debadf2bcd7b2273cd
+  created: 1755519855077
+  modified: 1755519855077
+  description: ""
+collection:
+  - url: "{{ _.base_url }}/todos"
+    name: Get all to-do items
+    meta:
+      id: req_3370cca0234d4e6e826eaabf86e96de2
+      created: 1755519870617
+      modified: 1755519870617
+      isPrivate: false
+      description: Returns a list of all to-do items for the user.
+      sortKey: -1755519870617
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/todos/{{ _.id }}"
+    name: Get a single to-do item
+    meta:
+      id: req_c70a9a23a7704b6aa67d4edf1be748f7
+      created: 1755519870619
+      modified: 1755519870619
+      isPrivate: false
+      description: Returns a single to-do item by its ID.
+      sortKey: -1755519870619
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_17706c87c4bfda63f381c4ae69f222b706eca698
+    created: 1755519856405
+    modified: 1755519856405
+environments:
+  name: Base Environment
+  meta:
+    id: env_17706c87c4bfda63f381c4ae69f222b706eca698
+    created: 1755519855081
+    modified: 1755519870614
+    isPrivate: false
+  data:
+    base_url: "{{ _.scheme }}://{{ _.host }}{{ _.base_path }}"
+  subEnvironments:
+    - name: OpenAPI env api.example.com
+      meta:
+        id: env_794a3f7da7ec4b23a0c5d5ff1b218ab4
+        created: 1755519870615
+        modified: 1755519870615
+        isPrivate: false
+        sortKey: 1755519870615
+      data:
+        scheme: https
+        base_path: /v1
+        host: api.example.com
+spec:
+  contents:
+    openapi: 3.0.0
+    info:
+      title: Simple To-Do List API
+      description: A basic API for managing a to-do list.
+      version: 1.0.0
+    servers:
+      - url: https://api.example.com/v1
+        description: Production Server
+    paths:
+      /todos:
+        get:
+          summary: Get all to-do items
+          description: Returns a list of all to-do items for the user.
+          responses:
+            "200":
+              description: A successful response with a list of to-do items.
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        title:
+                          type: string
+                          example: Buy groceries
+                        completed:
+                          type: boolean
+                          example: false
+      /todos/{id}:
+        get:
+          summary: Get a single to-do item
+          description: Returns a single to-do item by its ID.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              schema:
+                type: integer
+          responses:
+            "200":
+              description: A successful response with the requested to-do item.
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      title:
+                        type: string
+                        example: Buy groceries
+                      completed:
+                        type: boolean
+                        example: false
+  meta:
+    id: spc_2a4959abef6543b08d5ab64fd4cdf14d
+    created: 1755519855080
+    modified: 1755519855080
