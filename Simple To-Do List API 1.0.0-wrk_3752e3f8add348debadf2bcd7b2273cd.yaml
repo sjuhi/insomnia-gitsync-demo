@@ -11,11 +11,17 @@ collection:
     meta:
       id: req_3370cca0234d4e6e826eaabf86e96de2
       created: 1755519870617
-      modified: 1755519870617
+      modified: 1755581548406
       isPrivate: false
       description: Returns a list of all to-do items for the user.
       sortKey: -1755519870617
     method: GET
+    headers:
+      - name: Content-Type
+        value: application/json
+    scripts:
+      preRequest: ""
+      afterResponse: ""
     settings:
       renderRequestBody: true
       encodeUrl: true
@@ -24,16 +30,46 @@ collection:
         send: true
         store: true
       rebuildPath: true
-  - url: "{{ _.base_url }}/todos/{{ _.id }}"
+  - url: "{{ _.host }}/todos"
     name: Get a single to-do item
     meta:
       id: req_c70a9a23a7704b6aa67d4edf1be748f7
       created: 1755519870619
-      modified: 1755519870619
+      modified: 1755581580529
       isPrivate: false
       description: Returns a single to-do item by its ID.
       sortKey: -1755519870619
     method: GET
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: https://httpbin.org
+    name: httpbin
+    meta:
+      id: req_889f537b7fd44ce4a5f7458f56a4642b
+      created: 1755581669242
+      modified: 1755581702854
+      isPrivate: false
+      description: ""
+      sortKey: -1755581669242
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.4.0
+        id: pair_cc9e2b7e7c4e4911833c2815f2a99d87
+      - id: pair_1c064c57bd0142adab24991922daa804
+        name: Content-Type
+        value: application/json
+        description: ""
+        disabled: false
     settings:
       renderRequestBody: true
       encodeUrl: true
