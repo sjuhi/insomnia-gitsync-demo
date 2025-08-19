@@ -51,6 +51,33 @@ collection:
         send: true
         store: true
       rebuildPath: true
+  - url: https://httpbin.org
+    name: httpbin
+    meta:
+      id: req_889f537b7fd44ce4a5f7458f56a4642b
+      created: 1755581669242
+      modified: 1755581702854
+      isPrivate: false
+      description: ""
+      sortKey: -1755581669242
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.4.0
+        id: pair_cc9e2b7e7c4e4911833c2815f2a99d87
+      - id: pair_1c064c57bd0142adab24991922daa804
+        name: Content-Type
+        value: application/json
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
 cookieJar:
   name: Default Jar
   meta:
