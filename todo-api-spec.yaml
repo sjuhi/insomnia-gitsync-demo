@@ -1,59 +1,224 @@
 openapi: 3.0.0
 info:
-  title: Simple To-Do List API
+  title: To-Do List API
   description: A basic API for managing a to-do list.
-  version: 1.0.0
+  version: "1.0.0"
+  contact:
+    email: support@example.com
 servers:
-  - url: https://api.example.com/v1
-    description: Production Server
+  - url: http://localhost:3000/api/v1
+    description: Local Mock Server
+tags:
+  - name: "To-Do Items"
+    description: "Operations for managing individual to-do items"
+
 paths:
   /todos:
     get:
-      summary: Get all to-do items
-      description: Returns a list of all to-do items for the user.
+      tags:
+        - "To-Do Items"
+      summary: "List all to-do items"
+      description: "Retrieves a list of all to-do items in the system."
+      operationId: "listTodos"
       responses:
-        '200':
-          description: A successful response with a list of to-do items.
+        "200":
+          description: "A successful response with a list of to-do items."
           content:
             application/json:
               schema:
-                type: array
+                type: "array"
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 1
-                    title:
-                      type: string
-                      example: "Buy groceries"
-                    completed:
-                      type: boolean
-                      example: false
+                  $ref: "#/components/schemas/Todo"
+              example:
+                - id: 1
+                  title: "Buy groceries"
+                  description: "Milk, Bread, Cheese"
+                  completed: false
+                  createdAt: "2025-08-20T09:00:00Z"
+                - id: 2
+                  title: "Finish Insomnia demo script"
+                  description: "Review all steps and add notes."
+                  completed: true
+                  createdAt: "2025-08-19T15:30:00Z"
+    post:
+      tags:
+        - "To-Do Items"
+      summary: "Create a new to-do item"
+      description: "Adds a new item to the to-do list."
+      operationId: "createTodo"
+      requestBody:
+        description: "The to-do item to create."
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewTodo"
+            example:
+              title: "Schedule team meeting"
+              description: "Discuss Q3 project goals."
+      responses:
+        "21":
+          description: "To-do item created successfully."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "400":
+          description: "Invalid input provided."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /todos/{id}:
     get:
-      summary: Get a single to-do item
-      description: Returns a single to-do item by its ID.
+      tags:
+        - "To-Do Items"
+      summary: "Get a to-do item by ID"
+      description: "Retrieves a single to-do item based on its unique ID."
+      operationId: "getTodoById"
       parameters:
-        - name: id
-          in: path
+        - name: "id"
+          in: "path"
           required: true
+          description: "The ID of the to-do item to retrieve."
           schema:
-            type: integer
+            type: "integer"
+            format: "int64"
       responses:
-        '200':
-          description: A successful response with the requested to-do item.
+        "200":
+          description: "Successful retrieval of the to-do item."
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 1
-                  title:
-                    type: string
-                    example: "Buy groceries"
-                  completed:
-                    type: boolean
-                    example: false
+                $ref: "#/components/schemas/Todo"
+        "404":
+          description: "To-do item not found."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      tags:
+        - "To-Do Items"
+      summary: "Update an existing to-do item"
+      description: "Updates the details of an existing to-do item, such as marking it as complete."
+      operationId: "updateTodo"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "The ID of the to-do item to update."
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        description: "The updated details for the to-do item."
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTodo"
+            example:
+              title: "Buy groceries for the week"
+              completed: true
+      responses:
+        "200":
+          description: "To-do item updated successfully."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "404":
+          description: "To-do item not found."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - "To-Do Items"
+      summary: "Delete a to-do item"
+      description: "Permanently deletes a to-do item from the list."
+      operationId: "deleteTodo"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "The ID of the to-do item to delete."
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "204":
+          description: "To-do item deleted successfully."
+        "404":
+          description: "To-do item not found."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Todo:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          description: "Unique identifier for the to-do item."
+          example: 101
+        title:
+          type: "string"
+          description: "The main title or task of the to-do item."
+          example: "Prepare presentation"
+        description:
+          type: "string"
+          description: "A more detailed description of the task."
+          example: "Gather slides and practice talking points."
+        completed:
+          type: "boolean"
+          description: "Indicates whether the to-do item is completed."
+          example: false
+        createdAt:
+          type: "string"
+          format: "date-time"
+          description: "The timestamp when the to-do item was created."
+          example: "2025-08-20T10:30:00Z"
+    NewTodo:
+      type: "object"
+      required:
+        - title
+      properties:
+        title:
+          type: "string"
+          example: "Walk the dog"
+        description:
+          type: "string"
+          example: "Around the park before 8 AM."
+    UpdateTodo:
+      type: "object"
+      properties:
+        title:
+          type: "string"
+          example: "Walk the dog in the evening"
+        description:
+          type: "string"
+          example: "Around the block after dinner."
+        completed:
+          type: "boolean"
+          example: true
+    Error:
+      type: "object"
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: "integer"
+          format: "int32"
+          example: 404
+        message:
+          type: "string"
+          example: "Item with ID 999 not found."
